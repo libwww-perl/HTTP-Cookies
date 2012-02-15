@@ -1,4 +1,11 @@
 _______________________________________________________________________________
+2011-02-15 HTTP-Cookies 6.01
+
+Restore 5.8.1 compatiblity.
+
+
+
+_______________________________________________________________________________
 2011-02-27 HTTP-Cookies 6.00
 
 Initial release of HTTP-Cookies as a separate distribution. There are no code
