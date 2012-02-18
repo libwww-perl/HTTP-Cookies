@@ -165,9 +165,29 @@ sub add_cookie_header
 	    unshift(@cval, $old);
 	}
 	$request->header(Cookie => join("; ", @cval));
+	if (my $hash = $request->{_http_cookies}) {
+	    %$hash = (map split(/=/, $_, 2), @cval);
+	}
     }
 
     $request;
+}
+
+
+sub get_cookies
+{
+    my $self = shift;
+    my $url = shift;
+    $url = "https://$url" unless $url =~ m,^[a-zA-Z][a-zA-Z0-9.+\-]*:,;
+    require HTTP::Request;
+    my $req = HTTP::Request->new(GET => $url);
+    my $cookies = $req->{_http_cookies} = {};
+    $self->add_cookie_header($req);
+    if (@_) {
+	return map $cookies->{$_}, @_ if wantarray;
+	return $cookies->{$_[0]};
+    }
+    return $cookies;
 }
 
 
@@ -667,6 +687,16 @@ Future parameters might include (not yet implemented):
   max_cookie_size           4096
 
   no_cookies   list of domain names that we never return cookies to
+
+=item $cookie_jar->get_cookies( $url_or_domain )
+
+=item $cookie_jar->get_cookies( $url_or_domain, $cookie_key,... )
+
+Returns a hash of the cookies that applies to the given URL. If a
+domainname is given as argument, then a prefix of "https://" is assumed.
+
+If one or more $cookie_key parameters are provided return the given values,
+or C<undef> if the cookie isn't available.
 
 =item $cookie_jar->add_cookie_header( $request )
 

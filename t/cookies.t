@@ -1,7 +1,7 @@
 #!perl -w
 
 use Test;
-plan tests => 66;
+plan tests => 77;
 
 use HTTP::Cookies;
 use HTTP::Request;
@@ -679,6 +679,24 @@ ok($req->header("Cookie"), "x=bcd; foo=1");
 $c->add_cookie_header($req);
 ok($req->header("Cookie"), "x=bcd; foo=1; foo=1");
 #print $req->as_string;
+
+# Test get_cookies
+$c = HTTP::Cookies->new;
+$res->header("Set-Cookie", "foo=42");
+$c->extract_cookies($res);
+ok($c->get_cookies("example.com")->{foo}, 42);
+ok($c->get_cookies("example.com", "foo"), 42);
+ok($c->get_cookies("example.com", "bar"), undef);
+ok($c->get_cookies("http://example.com", "foo"), 42);
+ok($c->get_cookies("https://example.com", "foo"), 42);
+ok($c->get_cookies(URI->new("https://example.com"), "foo"), 42);
+ok($c->get_cookies("foo.example.com", "foo"), 42);
+ok($c->get_cookies("example.org", "foo"), undef);
+
+my @a = $c->get_cookies("example.com", "bar", "foo");
+ok(@a, 2);
+ok($a[0], undef);
+ok($a[1], 42);
 
 
 #-------------------------------------------------------------------
