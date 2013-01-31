@@ -717,7 +717,7 @@ The set_cookie() method updates the state of the $cookie_jar.  The
 $key, $val, $domain, $port and $path arguments are strings.  The
 $path_spec, $secure, $discard arguments are boolean values. The $maxage
 value is a number indicating number of seconds that this cookie will
-live.  A value <= 0 will delete this cookie.  %rest defines
+live.  A value of $maxage <= 0 will delete this cookie.  %rest defines
 various other attributes like "Comment" and "CommentURL".
 
 =item $cookie_jar->save
