@@ -58,8 +58,10 @@ sub add_cookie_header
     my $netscape_only = 0; # An exact domain match applies to any cookie
 
     while ($domain =~ /\./) {
+
         # Checking $domain for cookies"
-	my $cookies = $self->{COOKIES}{$domain};
+	my $cookies = $self->{COOKIES}{".$domain"} || $self->{COOKIES}{$domain};
+
 	next unless $cookies;
 	if ($self->{delayload} && defined($cookies->{'//+delayload'})) {
 	    my $cookie_data = $cookies->{'//+delayload'}{'cookie'};
@@ -335,6 +337,9 @@ sub extract_cookies
 	    if ($hostpre =~ /\./ && !$ns_cookie) {
 		next SET_COOKIE;
 	    }
+	}
+	elsif (defined($domain) && $domain eq $req_host) {
+		$domain = ".$domain" unless $domain =~ /^\./;
 	}
 	else {
 	    $domain = $req_host;
