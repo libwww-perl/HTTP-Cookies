@@ -20,7 +20,21 @@ WriteMakefile(
 	resources => {
             repository => 'http://github.com/gisle/http-cookies',
 	    MailingList => 'mailto:libwww@perl.org',
-        }
+        },
+        provides => {
+            'HTTP::Cookies' => {
+                file => 'lib/HTTP/Cookies.pm',
+                version => '6.01',
+            },
+            'HTTP::Cookies::Netscape' => {
+                file => 'lib/HTTP/Cookies/Netscape.pm',
+                version => '6.00',
+            },
+            'HTTP::Cookies::Microsoft' => {
+                file => 'lib/HTTP/Cookies/Microsoft.pm',
+                version => '6.00',
+            },
+        },
     },
 );
 
