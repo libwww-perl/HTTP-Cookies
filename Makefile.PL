@@ -16,6 +16,9 @@ WriteMakefile(
 	'HTTP::Headers::Util' => 6,
 	'Time::Local' => 0,
     },
+    TEST_REQUIRES => {
+	'URI' => 0,
+    },
     META_MERGE => {
 	resources => {
             repository => 'http://github.com/gisle/http-cookies',
@@ -33,6 +36,7 @@ BEGIN {
         META_MERGE => 6.45,
         META_ADD => 6.45,
         MIN_PERL_VERSION => 6.48,
+        TEST_REQUIRES => 6.64,
     );
     undef(*WriteMakefile);
     *WriteMakefile = sub {
