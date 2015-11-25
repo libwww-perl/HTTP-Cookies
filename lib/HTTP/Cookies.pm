@@ -664,6 +664,22 @@ information to initialize Cookie-headers in I<HTTP::Request> objects.
 The state of a I<HTTP::Cookies> object can be saved in and restored from
 files.
 
+=head1 LIMITATIONS
+
+This module does not support L<< Public Suffix|https://publicsuffix.org/
+>> encouraged by a more recent standard, L<< RFC
+6265|https://tools.ietf.org/html/rfc6265 >>.
+
+This module's shortcomings mean that a malicious Web site can set
+cookies to track your user agent across all sites under a top level
+domain.  See F<< t/publicsuffix.t >> in this module's distribution for
+details.
+
+L<< HTTP::CookieJar::LWP >> supports Public Suffix, but only provides a
+limited subset of this module's functionality and L<< does not
+support|HTTP::CookieJar/LIMITATIONS-AND-CAVEATS >> standards older than
+I<RFC 6265>.
+
 =head1 METHODS
 
 The following methods are provided:
