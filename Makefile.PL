@@ -29,7 +29,7 @@ BEGIN {
     # compatibility with older versions of MakeMaker
     my $developer = -f ".gitignore";
     my %mm_req = (
-        LICENCE => 6.31,
+        LICENSE => 6.31,
         META_MERGE => 6.45,
         META_ADD => 6.45,
         MIN_PERL_VERSION => 6.48,
