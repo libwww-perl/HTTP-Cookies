@@ -28,9 +28,11 @@ sub load
 	next if /^\s*$/;
 	tr/\n\r//d;
 	my($domain,$bool1,$path,$secure, $expires,$key,$val) = split(/\t/, $_);
+	my $maxage;
+	$maxage = $expires-$now if $expires;
 	$secure = ($secure eq "TRUE");
 	$self->set_cookie(undef,$key,$val,$path,$domain,undef,
-			  0,$secure,$expires-$now, 0);
+			  0,$secure,$maxage, 0);
     }
     close(FILE);
     1;
@@ -57,8 +59,13 @@ EOT
 	my($version,$key,$val,$path,$domain,$port,
 	   $path_spec,$secure,$expires,$discard,$rest) = @_;
 	return if $discard && !$self->{ignore_discard};
-	$expires = $expires ? $expires - $HTTP::Cookies::EPOCH_OFFSET : 0;
-	return if $now > $expires;
+	if($expires) {
+	    $expires = $expires - $HTTP::Cookies::EPOCH_OFFSET;
+	    return if $now > $expires;
+	}
+	else {
+	    $expires = 0;
+	}
 	$secure = $secure ? "TRUE" : "FALSE";
 	my $bool = $domain =~ /^\./ ? "TRUE" : "FALSE";
 	print FILE join("\t", $domain, $bool, $path, $secure, $expires, $key, $val), "\n";
