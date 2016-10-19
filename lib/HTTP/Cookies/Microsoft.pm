@@ -238,9 +238,7 @@ sub load
 
 __END__
 
-=head1 NAME
-
-HTTP::Cookies::Microsoft - access to Microsoft cookies files
+#ABSTRACT: Access to Microsoft cookies files
 
 =head1 SYNOPSIS
 
