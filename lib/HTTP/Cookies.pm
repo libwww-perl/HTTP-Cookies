@@ -623,10 +623,7 @@ sub _normalize_path  # so that plain string compare can be used
 1;
 
 __END__
-
-=head1 NAME
-
-HTTP::Cookies - HTTP cookie jars
+#ABSTRACT: HTTP cookie jars
 
 =head1 SYNOPSIS
 
@@ -819,12 +816,5 @@ cookies with the I<Discard> attribute.
 =head1 SEE ALSO
 
 L<HTTP::Cookies::Netscape>, L<HTTP::Cookies::Microsoft>
-
-=head1 COPYRIGHT
-
-Copyright 1997-2002 Gisle Aas
-
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
 
 =cut

@@ -67,9 +67,7 @@ EOT
 1;
 __END__
 
-=head1 NAME
-
-HTTP::Cookies::Netscape - access to Netscape cookies files
+#ABSTRACT: Access to Netscape cookies files
 
 =head1 SYNOPSIS
 
@@ -100,12 +98,5 @@ Phoenix/Firebird.
 =head1 SEE ALSO
 
 L<HTTP::Cookies::Microsoft>
-
-=head1 COPYRIGHT
-
-Copyright 2002-2003 Gisle Aas
-
-This library is free software; you can redistribute it and/or
-modify it under the same terms as Perl itself.
 
 =cut
