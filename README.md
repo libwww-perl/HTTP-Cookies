@@ -190,7 +190,7 @@ The following methods are provided:
 
 # AUTHOR
 
-Gisle Aas
+Gisle Aas <gisle@activestate.com>
 
 # COPYRIGHT AND LICENSE
 

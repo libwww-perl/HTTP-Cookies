@@ -2,26 +2,26 @@
 use strict;
 use warnings;
 
-
+use 5.008001;
 
 use ExtUtils::MakeMaker;
 
 my %WriteMakefileArgs = (
   "ABSTRACT" => "HTTP cookie jars",
-  "AUTHOR" => "Gisle Aas",
+  "AUTHOR" => "Gisle Aas <gisle\@activestate.com>",
   "CONFIGURE_REQUIRES" => {
     "ExtUtils::MakeMaker" => 0
   },
   "DISTNAME" => "HTTP-Cookies",
   "LICENSE" => "perl",
+  "MIN_PERL_VERSION" => "5.008001",
   "NAME" => "HTTP::Cookies",
   "PREREQ_PM" => {
     "Carp" => 0,
-    "HTTP::Date" => 0,
-    "HTTP::Headers::Util" => 0,
+    "HTTP::Date" => 6,
+    "HTTP::Headers::Util" => 6,
     "HTTP::Request" => 0,
     "Time::Local" => 0,
-    "Win32" => 0,
     "locale" => 0,
     "strict" => 0,
     "vars" => 0
@@ -42,15 +42,14 @@ my %WriteMakefileArgs = (
 
 my %FallbackPrereqs = (
   "Carp" => 0,
-  "HTTP::Date" => 0,
-  "HTTP::Headers::Util" => 0,
+  "HTTP::Date" => 6,
+  "HTTP::Headers::Util" => 6,
   "HTTP::Request" => 0,
   "HTTP::Response" => 0,
   "Test" => 0,
   "Test::More" => 0,
   "Time::Local" => 0,
   "URI" => 0,
-  "Win32" => 0,
   "locale" => 0,
   "strict" => 0,
   "vars" => 0,

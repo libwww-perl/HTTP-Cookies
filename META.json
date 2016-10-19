@@ -1,7 +1,7 @@
 {
    "abstract" : "HTTP cookie jars",
    "author" : [
-      "Gisle Aas"
+      "Gisle Aas <gisle@activestate.com>"
    ],
    "dynamic_config" : 1,
    "generated_by" : "Dist::Zilla version 6.007, CPAN::Meta::Converter version 2.150010",
@@ -36,12 +36,12 @@
       "runtime" : {
          "requires" : {
             "Carp" : "0",
-            "HTTP::Date" : "0",
-            "HTTP::Headers::Util" : "0",
+            "HTTP::Date" : "6",
+            "HTTP::Headers::Util" : "6",
             "HTTP::Request" : "0",
             "Time::Local" : "0",
-            "Win32" : "0",
             "locale" : "0",
+            "perl" : "5.008001",
             "strict" : "0",
             "vars" : "0"
          }

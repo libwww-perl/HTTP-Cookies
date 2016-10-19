@@ -1,10 +1,10 @@
 requires "Carp" => "0";
-requires "HTTP::Date" => "0";
-requires "HTTP::Headers::Util" => "0";
+requires "HTTP::Date" => "6";
+requires "HTTP::Headers::Util" => "6";
 requires "HTTP::Request" => "0";
 requires "Time::Local" => "0";
-requires "Win32" => "0";
 requires "locale" => "0";
+requires "perl" => "5.008001";
 requires "strict" => "0";
 requires "vars" => "0";
 
