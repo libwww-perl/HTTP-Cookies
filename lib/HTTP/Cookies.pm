@@ -431,11 +431,9 @@ sub save
 {
     my $self = shift;
     my $file = shift || $self->{'file'} || return;
-    local(*FILE);
-    open(FILE, ">$file") or die "Can't open $file: $!";
-    print FILE "#LWP-Cookies-1.0\n";
-    print FILE $self->as_string(!$self->{ignore_discard});
-    close(FILE);
+    open(my $fh, '>', $file) or die "Can't open $file: $!";
+    print {$fh} "#LWP-Cookies-1.0\n";
+    print {$fh} $self->as_string(!$self->{ignore_discard});
     1;
 }
 
@@ -444,43 +442,47 @@ sub load
 {
     my $self = shift;
     my $file = shift || $self->{'file'} || return;
-    local(*FILE, $_);
+
     local $/ = "\n";  # make sure we got standard record separator
-    open(FILE, $file) or return;
-    my $magic = <FILE>;
-    unless ($magic =~ /^\#LWP-Cookies-(\d+\.\d+)/) {
-	warn "$file does not seem to contain cookies";
-	return;
-    }
-    while (<FILE>) {
-	next unless s/^Set-Cookie3:\s*//;
-	chomp;
-	my $cookie;
-	for $cookie (_split_header_words($_)) {
-	    my($key,$val) = splice(@$cookie, 0, 2);
-	    my %hash;
-	    while (@$cookie) {
-		my $k = shift @$cookie;
-		my $v = shift @$cookie;
-		$hash{$k} = $v;
-	    }
-	    my $version   = delete $hash{version};
-	    my $path      = delete $hash{path};
-	    my $domain    = delete $hash{domain};
-	    my $port      = delete $hash{port};
-	    my $expires   = str2time(delete $hash{expires});
+    open(my $fh, '<', $file) or return;
 
-	    my $path_spec = exists $hash{path_spec}; delete $hash{path_spec};
-	    my $secure    = exists $hash{secure};    delete $hash{secure};
-	    my $discard   = exists $hash{discard};   delete $hash{discard};
-
-	    my @array =	($version,$val,$port,
-			 $path_spec,$secure,$expires,$discard);
-	    push(@array, \%hash) if %hash;
-	    $self->{COOKIES}{$domain}{$path}{$key} = \@array;
-	}
+    # check that we have the proper header
+    my $magic = <$fh>;
+    chomp $magic;
+    unless ($magic =~ /^#LWP-Cookies-\d+\.\d+/) {
+        warn "$file does not seem to contain cookies";
+        return;
     }
-    close(FILE);
+
+    # go through the file
+    while (my $line = <$fh>) {
+        chomp $line;
+        next unless $line =~ s/^Set-Cookie3:\s*//;
+        my $cookie;
+        for $cookie (_split_header_words($line)) {
+            my($key,$val) = splice(@$cookie, 0, 2);
+            my %hash;
+            while (@$cookie) {
+                my $k = shift @$cookie;
+                my $v = shift @$cookie;
+                $hash{$k} = $v;
+            }
+            my $version   = delete $hash{version};
+            my $path      = delete $hash{path};
+            my $domain    = delete $hash{domain};
+            my $port      = delete $hash{port};
+            my $expires   = str2time(delete $hash{expires});
+
+            my $path_spec = exists $hash{path_spec}; delete $hash{path_spec};
+            my $secure    = exists $hash{secure};    delete $hash{secure};
+            my $discard   = exists $hash{discard};   delete $hash{discard};
+
+            my @array = ($version, $val, $port, $path_spec, $secure, $expires,
+                $discard);
+            push(@array, \%hash) if %hash;
+            $self->{COOKIES}{$domain}{$path}{$key} = \@array;
+        }
+    }
     1;
 }
 
@@ -825,3 +827,4 @@ Copyright 1997-2002 Gisle Aas
 This library is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
+=cut
