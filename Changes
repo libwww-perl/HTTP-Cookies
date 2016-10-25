@@ -2,6 +2,13 @@ Revision history for HTTP-Cookies.  The HTTP::Cookies module used to be bundled
 with the libwww-perl distribution.
 
 {{$NEXT}}
+    - Document the lack of Public Suffix https://publicsuffix.org/ support
+    - Add TODO tests for lack of Public Suffix support
+    - Improve "maxage" documentation
+    - Update the GitHub repository location
+    - Use GitHub Issues instead of RT
+    - Stop using bareword filehandles
+    - Various internal distribution management and testing changes
 
 6.01 2012-02-15
     - Restore 5.8.1 compatiblity.
