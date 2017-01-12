@@ -6,7 +6,7 @@ HTTP::Cookies - HTTP cookie jars
 
 # VERSION
 
-version 6.01
+version 6.02
 
 # SYNOPSIS
 

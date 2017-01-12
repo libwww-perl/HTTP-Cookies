@@ -4,7 +4,7 @@
       "Gisle Aas <gisle@activestate.com>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "Dist::Zilla version 6.007, CPAN::Meta::Converter version 2.150010",
+   "generated_by" : "Dist::Zilla version 6.008, CPAN::Meta::Converter version 2.150005",
    "license" : [
       "perl_5"
    ],
@@ -29,7 +29,7 @@
       "develop" : {
          "requires" : {
             "Test::CPAN::Changes" : "0.19",
-            "Test::Code::TidyAll" : "0.24",
+            "Test::Code::TidyAll" : "0.50",
             "Test::More" : "0.88"
          }
       },
@@ -68,7 +68,7 @@
          "web" : "https://github.com/libwww-perl/http-cookies"
       }
    },
-   "version" : "6.01",
+   "version" : "6.02",
    "x_contributors" : [
       "Adam Kennedy <adamk@cpan.org>",
       "Adam Sjogren <asjo@koldfront.dk>",
@@ -79,17 +79,13 @@
       "Andreas J. Koenig <andreas.koenig@anima.de>",
       "Bill Mann <wfmann@alum.mit.edu>",
       "Bron Gondwana <brong@fastmail.fm>",
-      "Chase Whitener <cwhitener@gmail.com>",
+      "Chase Whitener <capoeirab@cpan.org>",
       "Daniel Hedlund <Daniel.Hedlund@eprize.com>",
       "David E. Wheeler <david@justatheory.com>",
       "DAVIDRW <davidrw@cpan.org>",
       "Father Chrysostomos <sprout@cpan.org>",
       "FWILES <FWILES@cpan.org>",
       "Gavin Peters <gpeters@deepsky.com>",
-      "Gisle Aas <aas@oslonett.no>",
-      "Gisle Aas <gisle.aas@it.uib.no>",
-      "Gisle Aas <gisle@aas.no>",
-      "Gisle Aas <gisle@baux-2.lan>",
       "Graeme Thompson <Graeme.Thompson@mobilecohesion.com>",
       "Hans-H. Froehlich <hfroehlich@co-de-co.de>",
       "Ian Kilgore <iank@cpan.org>",
@@ -97,11 +93,8 @@
       "James McCoy <vega.james@gmail.com>",
       "jefflee <shaohua@gmail.com>",
       "john9art <john9art@yahoo.com>",
-      "Mark Stosberg <mark@stosberg.com>",
       "Mark Stosberg <MARKSTOS@cpan.org>",
-      "Mark Stosberg <mark@summersault.com>",
-      "Mike Schilli <mschilli@yahoo-inc.com>",
-      "mschilli <github@perlmeister.com>",
+      "Mike Schilli <m@perlmeiser.com>",
       "murphy <murphy@genome.chop.edu>",
       "Olaf Alders <olaf@wundersolutions.com>",
       "Ondrej Hanak <ondrej.hanak@ubs.com>",
@@ -114,18 +107,16 @@
       "sasao <sasao@yugen.org>",
       "Sean M. Burke <sburke@cpan.org>",
       "Slaven Rezic <slaven@rezic.de>",
-      "Slaven Rezic <srezic@iconmobile.com>",
       "Spiros Denaxas <s.denaxas@gmail.com>",
       "Steve Hay <SteveHay@planit.com>",
       "Todd Lipcon <todd@amiestreet.com>",
       "Tom Hukins <tom@eborcom.com>",
       "Tony Finch <dot@dotat.at>",
       "Toru Yamaguchi <zigorou@cpan.org>",
-      "uid39246 <uid39246>",
-      "Ville Skytta <ville.skytta@iki.fi>",
+      "Ville Skytt\u00e4 <ville.skytta@iki.fi>",
       "Yuri Karaban <tech@askold.net>",
       "Zefram <zefram@fysh.org>"
    ],
-   "x_serialization_backend" : "Cpanel::JSON::XS version 3.0217"
+   "x_serialization_backend" : "Cpanel::JSON::XS version 3.0225"
 }
 
