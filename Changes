@@ -2,6 +2,7 @@ Revision history for HTTP-Cookies.  The HTTP::Cookies module used to be bundled
 with the libwww-perl distribution.
 
 {{$NEXT}}
+    - No changes since TRIAL release 6.02
 
 6.02      2017-01-12 18:02:49-05:00 America/Toronto (TRIAL RELEASE)
     - Document the lack of Public Suffix https://publicsuffix.org/ support

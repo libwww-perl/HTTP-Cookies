@@ -56,7 +56,7 @@
          }
       }
    },
-   "release_status" : "testing",
+   "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
          "web" : "https://github.com/libwww-perl/http-cookies/issues"
@@ -68,7 +68,7 @@
          "web" : "https://github.com/libwww-perl/http-cookies"
       }
    },
-   "version" : "6.02",
+   "version" : "6.03",
    "x_contributors" : [
       "Adam Kennedy <adamk@cpan.org>",
       "Adam Sjogren <asjo@koldfront.dk>",
