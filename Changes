@@ -15,6 +15,7 @@ with the libwww-perl distribution.
     - Use GitHub Issues instead of RT
     - Stop using bareword filehandles
     - Various internal distribution management and testing changes
+    - Add get_cookies() method
 
 6.01 2012-02-15
     - Restore 5.8.1 compatiblity.
