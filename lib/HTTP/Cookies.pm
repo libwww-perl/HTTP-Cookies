@@ -652,8 +652,8 @@ knows about.
 Cookies are a general mechanism which server side connections can use
 to both store and retrieve information on the client side of the
 connection.  For more information about cookies refer to
-<URL:http://curl.haxx.se/rfc/cookie_spec.html> and
-<URL:http://www.cookiecentral.com/>.  This module also implements the
+L<Cookie Spec|http://curl.haxx.se/rfc/cookie_spec.html> and
+L<Cookie Central|http://www.cookiecentral.com>.  This module also implements the
 new style cookies described in L<RFC 2965|https://tools.ietf.org/html/rfc2965>.
 The two variants of cookies are supposed to be able to coexist happily.
 
