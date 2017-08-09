@@ -1,6 +1,8 @@
 package HTTP::Cookies::Netscape;
 
 use strict;
+use warnings;
+use vars qw(@ISA);
 
 our $VERSION = '6.10';
 

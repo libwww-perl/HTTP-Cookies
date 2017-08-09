@@ -205,7 +205,7 @@ ok(!$cookie);
 #       Shopping basket contains an item.
 
 $cookie = interact($c, 'http://www.acme.com/acme/pickitem',
-		       'Part_Number="Rocket_Launcher_0001"; Version="1"; Path="/acme"');
+    	       'Part_Number="Rocket_Launcher_0001"; Version="1"; Path="/acme"');
 like($cookie, qr(^\$Version="?1"?; Customer="?WILE_E_COYOTE"?; \$Path="/acme"$));
 
 #
@@ -227,7 +227,7 @@ like($cookie, qr(^\$Version="?1"?; Customer="?WILE_E_COYOTE"?; \$Path="/acme"$))
 #       New cookie reflects shipping method.
 
 $cookie = interact($c, "http://www.acme.com/acme/shipping",
-		   'Shipping="FedEx"; Version="1"; Path="/acme"');
+    	   'Shipping="FedEx"; Version="1"; Path="/acme"');
 
 like($cookie, qr/^\$Version="?1"?;/);
 like($cookie, qr/Part_Number="?Rocket_Launcher_0001"?;\s*\$Path="\/acme"/);
@@ -469,7 +469,7 @@ print $c->as_string;
 # Test for empty path
 # Broken web-server ORION/1.3.38 returns to the client response like
 #
-#	Set-Cookie: JSESSIONID=ABCDERANDOM123; Path=
+#    Set-Cookie: JSESSIONID=ABCDERANDOM123; Path=
 #
 # e.g. with Path set to nothing.
 # In this case routine extract_cookies() must set cookie to / (root)

@@ -1,6 +1,8 @@
 package HTTP::Cookies::Microsoft;
 
 use strict;
+use warnings;
+use vars qw(@ISA);
 
 our $VERSION = '6.10';
 

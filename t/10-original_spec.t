@@ -4,6 +4,7 @@ use strict;
 use warnings;
 
 use Test::More;
+use Test::FailWarnings;
 
 use HTTP::Cookies ();
 use HTTP::Date ();
