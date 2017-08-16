@@ -224,7 +224,7 @@ sub load
 
                 # set the delayload cookie for this domain with
                 # the cookie_file as cookie for later-loading info
-                $self->set_cookie(undef, 'cookie', $cookie_file, '//+delayload', $domain, undef, 0, 0, $now+86400, 0);
+                $self->set_cookie(undef, 'cookie', $cookie_file, '//+delayload', $domain, undef, 0, 0, $now+86_400, 0);
             }
         }
     }
