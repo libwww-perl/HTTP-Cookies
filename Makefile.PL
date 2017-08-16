@@ -23,8 +23,7 @@ my %WriteMakefileArgs = (
     "HTTP::Request" => 0,
     "Time::Local" => 0,
     "locale" => 0,
-    "strict" => 0,
-    "vars" => 0
+    "strict" => 0
   },
   "TEST_REQUIRES" => {
     "ExtUtils::MakeMaker" => 0,

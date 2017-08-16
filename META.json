@@ -43,8 +43,7 @@
             "Time::Local" : "0",
             "locale" : "0",
             "perl" : "5.008001",
-            "strict" : "0",
-            "vars" : "0"
+            "strict" : "0"
          }
       },
       "test" : {
