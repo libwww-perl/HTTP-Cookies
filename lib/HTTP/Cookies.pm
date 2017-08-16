@@ -434,6 +434,7 @@ sub save
     open(my $fh, '>', $file) or die "Can't open $file: $!";
     print {$fh} "#LWP-Cookies-1.0\n";
     print {$fh} $self->as_string(!$self->{ignore_discard});
+    close $fh or die "Can't close $file: $!";
     1;
 }
 
