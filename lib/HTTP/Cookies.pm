@@ -227,7 +227,7 @@ sub extract_cookies
 	    my $param;
 	    my $expires;
 	    my $first_param = 1;
-	    for $param (split(/;\s*/, $set)) {
+	    for $param (@{_split_text($set)}) {
                 next unless length($param);
 		my($k,$v) = split(/\s*=\s*/, $param, 2);
 		if (defined $v) {
@@ -615,6 +615,50 @@ sub _normalize_path  # so that plain string compare can be used
                                             pack("C", hex($x));
               /eg;
     $_[0] =~ s/([\0-\x20\x7f-\xff])/sprintf("%%%02X",ord($1))/eg;
+}
+
+# deals with splitting values by ; and the fact that they could
+# be in quotes which can also have escaping.
+sub _split_text {
+    my $val = shift;
+    my @vals = grep { $_ ne '' } split(/([;\\"])/, $val);
+    my @chunks;
+    # divide it up into chunks to be processed.
+    my $in_string = 0;
+    my @current_string;
+    for(my $i = 0; $i < @vals; $i++) {
+        my $chunk = $vals[$i];
+        if($in_string) {
+            if($chunk eq '\\') {
+                # don't care about next char probably.
+                # having said that, probably need to be appending to the chunks
+                # just dropping this.
+                $i++;
+                if($i < @vals) {
+                    push @current_string, $vals[$i];
+                }
+            } elsif($chunk eq '"') {
+                $in_string = 0;
+            }
+            else {
+                push @current_string, $chunk;
+            }
+        } else {
+            if($chunk eq '"') {
+                $in_string = 1;
+            }
+            elsif($chunk eq ';') {
+                push @chunks, join('', @current_string);
+                @current_string = ();
+            }
+            else {
+                push @current_string, $chunk;
+            }
+        }
+    }
+    push @chunks, join('', @current_string) if @current_string;
+    s/^\s+// for @chunks;
+    return \@chunks;
 }
 
 1;
