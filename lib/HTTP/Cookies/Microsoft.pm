@@ -2,12 +2,10 @@ package HTTP::Cookies::Microsoft;
 
 use strict;
 
-use vars qw(@ISA);
-
 our $VERSION = '6.05';
 
 require HTTP::Cookies;
-@ISA=qw(HTTP::Cookies);
+our @ISA=qw(HTTP::Cookies);
 
 sub load_cookies_from_file
 {

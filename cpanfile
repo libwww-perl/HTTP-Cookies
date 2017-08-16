@@ -6,7 +6,6 @@ requires "Time::Local" => "0";
 requires "locale" => "0";
 requires "perl" => "5.008001";
 requires "strict" => "0";
-requires "vars" => "0";
 
 on 'test' => sub {
   requires "ExtUtils::MakeMaker" => "0";

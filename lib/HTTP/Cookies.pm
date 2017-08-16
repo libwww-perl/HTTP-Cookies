@@ -4,7 +4,7 @@ use strict;
 use HTTP::Date qw(str2time parse_date time2str);
 use HTTP::Headers::Util qw(_split_header_words join_header_words);
 
-use vars qw($EPOCH_OFFSET);
+our $EPOCH_OFFSET;
 our $VERSION = '6.05';
 
 # Legacy: because "use "HTTP::Cookies" used be the ONLY way
