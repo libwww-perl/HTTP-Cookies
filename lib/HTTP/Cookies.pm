@@ -625,7 +625,7 @@ sub _normalize_path  # so that plain string compare can be used
 # be in quotes which can also have escaping.
 sub _split_text {
     my $val = shift;
-    my @vals = grep { $_ ne '' } split(/([;\\"])/, $val);
+    my @vals = grep { $_ ne q{} } split(/([;\\"])/, $val);
     my @chunks;
     # divide it up into chunks to be processed.
     my $in_string = 0;
@@ -633,7 +633,7 @@ sub _split_text {
     for(my $i = 0; $i < @vals; $i++) {
         my $chunk = $vals[$i];
         if($in_string) {
-            if($chunk eq '\\') {
+            if($chunk eq q{\\}) {
                 # don't care about next char probably.
                 # having said that, probably need to be appending to the chunks
                 # just dropping this.
@@ -641,18 +641,18 @@ sub _split_text {
                 if($i < @vals) {
                     push @current_string, $vals[$i];
                 }
-            } elsif($chunk eq '"') {
+            } elsif($chunk eq q{"}) {
                 $in_string = 0;
             }
             else {
                 push @current_string, $chunk;
             }
         } else {
-            if($chunk eq '"') {
+            if($chunk eq q{"}) {
                 $in_string = 1;
             }
-            elsif($chunk eq ';') {
-                push @chunks, join('', @current_string);
+            elsif($chunk eq q{;}) {
+                push @chunks, join(q{}, @current_string);
                 @current_string = ();
             }
             else {
@@ -660,7 +660,7 @@ sub _split_text {
             }
         }
     }
-    push @chunks, join('', @current_string) if @current_string;
+    push @chunks, join(q{}, @current_string) if @current_string;
     s/^\s+// for @chunks;
     return \@chunks;
 }
