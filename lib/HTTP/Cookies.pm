@@ -12,10 +12,6 @@ our $VERSION = '6.05';
 require HTTP::Cookies::Netscape;
 
 $EPOCH_OFFSET = 0;  # difference from Unix epoch
-if ($^O eq "MacOS") {
-    require Time::Local;
-    $EPOCH_OFFSET = Time::Local::timelocal(0,0,0,1,0,70);
-}
 
 # A HTTP::Cookies object is a hash.  The main attribute is the
 # COOKIES 3 level hash:  $self->{COOKIES}{$domain}{$path}{$key}.
