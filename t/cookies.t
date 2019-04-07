@@ -1,7 +1,7 @@
 #!perl -w
 
 use Test;
-plan tests => 79, todo => [78, 79];
+plan tests => 79;
 
 use HTTP::Cookies;
 use HTTP::Request;

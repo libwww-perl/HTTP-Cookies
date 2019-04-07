@@ -36,8 +36,14 @@ sub load
 
 sub save
 {
-    my($self, $file) = @_;
-    $file ||= $self->{'file'} || return;
+    my $self = shift;
+    my %args = (
+        file => $self->{'file'},
+        ignore_discard => $self->{'ignore_discard'},
+        @_ == 1 ? ( file => $_[0] ) : @_
+    );
+    Carp::croak('Unexpected argument to save method') if keys %args > 2;
+    my $file = $args{'file'} || return;
 
     open(my $fh, '>', $file) || return;
 
@@ -53,7 +59,7 @@ EOT
     my $now = time - $HTTP::Cookies::EPOCH_OFFSET;
     $self->scan(sub {
         my ($version, $key, $val, $path, $domain, $port, $path_spec, $secure, $expires, $discard, $rest) = @_;
-        return if $discard && !$self->{ignore_discard};
+        return if $discard && !$args{'ignore_discard'};
         $expires = $expires ? $expires - $HTTP::Cookies::EPOCH_OFFSET : 0;
         return if $now > $expires;
         $secure = $secure ? "TRUE" : "FALSE";

@@ -426,10 +426,16 @@ sub set_cookie
 sub save
 {
     my $self = shift;
-    my $file = shift || $self->{'file'} || return;
+    my %args = (
+        file => $self->{'file'},
+        ignore_discard => $self->{'ignore_discard'},
+        @_ == 1 ? ( file => $_[0] ) : @_
+    );
+    Carp::croak('Unexpected argument to save method') if keys %args > 2;
+    my $file = $args{'file'} || return;
     open(my $fh, '>', $file) or die "Can't open $file: $!";
     print {$fh} "#LWP-Cookies-1.0\n";
-    print {$fh} $self->as_string(!$self->{ignore_discard});
+    print {$fh} $self->as_string(!$args{'ignore_discard'});
     close $fh or die "Can't close $file: $!";
     1;
 }
@@ -783,11 +789,14 @@ attributes like "Comment" and "CommentURL".
 
 =item $cookie_jar->save( $file )
 
+=item $cookie_jar->save( file => $file, ignore_discard => $ignore_discard )
+
 This method file saves the state of the $cookie_jar to a file.
 The state can then be restored later using the load() method.  If a
 filename is not specified we will use the name specified during
-construction.  If the attribute I<ignore_discard> is set, then we
-will even save cookies that are marked to be discarded.
+construction.  If the $ignore_discard value is true (or not specified,
+but attribute I<ignore_discard> was set at cookie jar construction),
+then we will even save cookies that are marked to be discarded.
 
 The default is to save a sequence of "Set-Cookie3" lines.
 "Set-Cookie3" is a proprietary LWP format, not known to be compatible
