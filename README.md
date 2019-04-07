@@ -2,7 +2,7 @@
 
 HTTP::Cookies - HTTP cookie jars
 
-[![Build Status](https://travis-ci.org/libwww-perl/http-cookies.png?branch=master)](https://travis-ci.org/libwww-perl/http-cookies)
+[![Build Status](https://travis-ci.org/libwww-perl/HTTP-Cookies.png?branch=master)](https://travis-ci.org/libwww-perl/HTTP-Cookies)
 
 # VERSION
 
