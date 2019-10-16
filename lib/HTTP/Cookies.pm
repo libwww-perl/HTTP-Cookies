@@ -729,8 +729,11 @@ The set_cookie() method updates the state of the $cookie_jar.  The
 $key, $val, $domain, $port and $path arguments are strings.  The
 $path_spec, $secure, $discard arguments are boolean values. The $maxage
 value is a number indicating number of seconds that this cookie will
-live.  A value of $maxage <= 0 will delete this cookie.  %rest defines
-various other attributes like "Comment" and "CommentURL".
+live.  A value of $maxage <= 0 will delete this cookie.  The $version argument
+sets the version of the cookie; the default value is 0 ( original Netscape 
+spec ).  Setting $version to another value indicates the RFC to which the
+cookie conforms (e.g. version 1 for RFC 2109).  %rest defines various other
+attributes like "Comment" and "CommentURL".
 
 =item $cookie_jar->save
 
