@@ -2,7 +2,7 @@ package HTTP::Cookies::Netscape;
 
 use strict;
 
-our $VERSION = '6.07';
+our $VERSION = '6.08';
 
 require HTTP::Cookies;
 our @ISA=qw(HTTP::Cookies);
