@@ -2,7 +2,7 @@ Revision history for HTTP-Cookies.  The HTTP::Cookies module used to be bundled
 with the libwww-perl distribution.
 
 {{$NEXT}}
-    - Add "ignore_discard" argument to save() methods
+    - allow different "ignore_discard" value at save() time (GH#2) (Alex Peters)
 
 6.07      2019-11-15 18:11:42Z
     - Fix t/issue32.t on old perl versions (GH#59) (Bernhard M. Wiedemann)
