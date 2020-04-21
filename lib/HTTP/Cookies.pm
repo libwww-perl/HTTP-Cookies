@@ -262,6 +262,9 @@ sub extract_cookies
 			}
 		    }
 		}
+                elsif (!$first_param && lc($k) eq 'max-age') {
+                    $expires++;
+                }
                 elsif (!$first_param && lc($k) =~ /^(?:version|discard|ns-cookie)/) {
                     # ignore
                 }
