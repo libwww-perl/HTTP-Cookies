@@ -24,6 +24,7 @@ sub load
     my $now = time() - $HTTP::Cookies::EPOCH_OFFSET;
     while (my $line = <$fh>) {
         chomp($line);
+        $line =~ s/\s*\#HttpOnly_//;
         next if $line =~ /^\s*\#/;
         next if $line =~ /^\s*$/;
         $line =~ tr/\n\r//d;
