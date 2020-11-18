@@ -419,7 +419,7 @@ unlink($file);
 
 # Expect a HttpOnly cookie to be loaded, rather than treated as a comment
 $c = HTTP::Cookies::Netscape->new(file => 't/data/netscape-httponly.txt');
-ok(count_cookies($c), 2);
+ok(count_cookies($c), 4);
 undef($c);
 
 #
