@@ -2,11 +2,9 @@
 
 HTTP::Cookies - HTTP cookie jars
 
-[![Build Status](https://travis-ci.org/libwww-perl/HTTP-Cookies.png?branch=master)](https://travis-ci.org/libwww-perl/HTTP-Cookies)
-
 # VERSION
 
-version 6.08
+version 6.09
 
 # SYNOPSIS
 
@@ -199,7 +197,7 @@ Gisle Aas <gisle@activestate.com>
 
 # COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2002-2019 by Gisle Aas.
+This software is copyright (c) 2002 by Gisle Aas.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.
