@@ -1,6 +1,8 @@
 Revision history for HTTP-Cookies.  The HTTP::Cookies module used to be bundled
 with the libwww-perl distribution.
 
+{{$NEXT}}
+
 6.09      2020-11-19 22:20:47Z
     - Allow HttpOnly cookies to be loaded by HTTP::Cookies::Netscape (GH#63)
       (Charlie Hothersall-Thomas)
