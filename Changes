@@ -2,6 +2,7 @@ Revision history for HTTP-Cookies.  The HTTP::Cookies module used to be bundled
 with the libwww-perl distribution.
 
 {{$NEXT}}
+    - do not set discard if max-age is set (GH#61) (robnagler, simbabque)
 
 6.09      2020-11-19 22:20:47Z
     - Allow HttpOnly cookies to be loaded by HTTP::Cookies::Netscape (GH#63)
