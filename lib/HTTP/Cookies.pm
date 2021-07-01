@@ -794,7 +794,7 @@ attributes like "Comment" and "CommentURL".
 
 =item $cookie_jar->save( file => $file, ignore_discard => $ignore_discard )
 
-This method file saves the state of the $cookie_jar to a file.
+This method saves the state of the $cookie_jar to a file.
 The state can then be restored later using the load() method.  If a
 filename is not specified we will use the name specified during
 construction.  If the $ignore_discard value is true (or not specified,
