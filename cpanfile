@@ -13,7 +13,6 @@ on 'test' => sub {
   requires "ExtUtils::MakeMaker" => "0";
   requires "File::Spec" => "0";
   requires "HTTP::Response" => "0";
-  requires "Test" => "0";
   requires "Test::More" => "0";
   requires "URI" => "0";
   requires "warnings" => "0";
