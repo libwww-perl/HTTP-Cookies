@@ -1,10 +1,11 @@
 #!perl -w
 
-use Test::More tests => 79;
+use HTTP::Cookies ();
+use HTTP::Request ();
+use HTTP::Response ();
+use URI ();
 
-use HTTP::Cookies;
-use HTTP::Request;
-use HTTP::Response;
+use Test::More tests => 79;
 
 #-------------------------------------------------------------------
 # First we check that it works for the original example at
@@ -443,7 +444,6 @@ $c->extract_cookies($res);
 
 print $c->as_string;
 
-require URI;
 $req = HTTP::Request->new(POST => URI->new("http://foo.bar.acme.com/foo"));
 $c->add_cookie_header($req);
 #print $req->as_string;
