@@ -2,7 +2,7 @@ package HTTP::Cookies::Microsoft;
 
 use strict;
 
-our $VERSION = '6.10';
+our $VERSION = '6.12';
 
 require HTTP::Cookies;
 our @ISA=qw(HTTP::Cookies);

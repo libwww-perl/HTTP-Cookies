@@ -1,6 +1,8 @@
 Revision history for HTTP-Cookies.  The HTTP::Cookies module used to be bundled
 with the libwww-perl distribution.
 
+{{$NEXT}}
+
 6.11      2023-12-07 16:36:52Z
     - Replace "Test" with "Test::More" (GH#70) (James Raspass)
 
