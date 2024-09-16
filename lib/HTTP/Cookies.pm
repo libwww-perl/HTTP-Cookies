@@ -395,6 +395,7 @@ sub set_cookie
        $key, $val, $path, $domain, $port,
        $path_spec, $secure, $maxage, $discard, $rest) = @_;
 
+    $domain = "$domain.local" unless $domain =~ /\./;
     # path and key can not be empty (key can't start with '$')
     return $self if !defined($path) || $path !~ m,^/, ||
 	            !defined($key)  || $key  =~ m,^\$,;
