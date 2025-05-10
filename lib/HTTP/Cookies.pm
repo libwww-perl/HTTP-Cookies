@@ -42,7 +42,11 @@ sub add_cookie_header
     }
 
     my $domain = _host($request, $url);
-    $domain = "$domain.local" unless $domain =~ /\./;
+    # The request hostname can have a trailing, but not leading, dot.
+    if ((index $domain, '.', 1) == -1) {
+        $domain = ".$domain.local";
+    }
+    else { $domain = ".$domain" }
     my $secure_request = ($scheme eq "https");
     my $req_path = _url_path($url);
     my $req_port = $url->port;
@@ -52,6 +56,7 @@ sub add_cookie_header
     my @cval;    # cookie values for the "Cookie" header
     my $set_ver;
     my $netscape_only = 0; # An exact domain match applies to any cookie
+    my $domain_part;
 
     while ($domain =~ /\./) {
         # Checking $domain for cookies"
@@ -148,7 +153,7 @@ sub add_cookie_header
 	# .c.net	Any cookie
 
 	if ($domain =~ s/^\.+//) {
-	    $netscape_only = 1;
+	    $netscape_only = 1 if $domain_part++;
 	}
 	else {
 	    $domain =~ s/[^.]*//;
