@@ -757,7 +757,7 @@ Future parameters might include (not yet implemented):
 
 =item $cookie_jar->get_cookies( $url_or_domain, $cookie_key,... )
 
-Returns a hash of the cookies that applies to the given URL. If a
+Returns a reference to hash of the cookies that applies to the given URL. If a
 domainname is given as argument, then a prefix of "https://" is assumed.
 
 If one or more $cookie_key parameters are provided return the given values,
