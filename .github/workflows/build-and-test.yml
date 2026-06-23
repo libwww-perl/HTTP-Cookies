@@ -16,7 +16,7 @@ jobs:
     container:
       image: perldocker/perl-tester:5.36
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6.0.3
       - name: install aspell
         run: apt-get install aspell aspell-en
       - name: Run Tests
@@ -26,7 +26,7 @@ jobs:
           EXTENDED_TESTING: 1
           RELEASE_TESTING: 1
         run: upgrade-perl-helpers && auto-build-and-test-dist
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v7
         with:
           name: build_dir
           path: build_dir
@@ -37,8 +37,8 @@ jobs:
     container:
       image: perldocker/perl-tester:5.36
     steps:
-      - uses: actions/checkout@v2 # codecov wants to be inside a Git repository
-      - uses: actions/download-artifact@v4.1.7
+      - uses: actions/checkout@v6.0.3 # codecov wants to be inside a Git repository
+      - uses: actions/download-artifact@v8.0.1
         with:
           name: build_dir
           path: .
@@ -71,8 +71,8 @@ jobs:
           - "5.34"
           - "5.36"
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/download-artifact@v4.1.7
+      - uses: actions/checkout@v6.0.3
+      - uses: actions/download-artifact@v8.0.1
         with:
           name: build_dir
           path: .
@@ -105,12 +105,12 @@ jobs:
         uses: shogo82148/actions-setup-perl@v1
         with:
           perl-version: ${{ matrix.perl-version }}
-      - uses: actions/download-artifact@v4.1.7
+      - uses: actions/download-artifact@v8.0.1
         with:
           name: build_dir
           path: .
       - name: install deps using cpm
-        uses: perl-actions/install-with-cpm@v1.3
+        uses: perl-actions/install-with-cpm@v2.4
         with:
           cpanfile: "cpanfile"
           args: "--with-suggests --with-test"
@@ -139,12 +139,12 @@ jobs:
         with:
           perl-version: ${{ matrix.perl-version }}
           distribution: strawberry # this option only used on Windows
-      - uses: actions/download-artifact@v4.1.7
+      - uses: actions/download-artifact@v8.0.1
         with:
           name: build_dir
           path: .
       - name: install deps using cpm
-        uses: perl-actions/install-with-cpm@v1.3
+        uses: perl-actions/install-with-cpm@v2.4
         with:
           cpanfile: "cpanfile"
           args: "--with-suggests --with-test --with-develop"
