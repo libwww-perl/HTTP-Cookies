@@ -142,9 +142,11 @@ jobs:
         with:
           name: build_dir
           path: .
-      - uses: perl-actions/setup-cpm@v1
-        with:
-          version: compat
-      - name: install deps using cpm
-        run: cpm install -g --cpanfile cpanfile --with-suggests --with-test --with-develop
+      # cpm/setup-cpm is not used on Windows: cpm shells out to the system tar
+      # to unpack distributions, and the bsdtar bundled with Strawberry Perl
+      # 5.24/5.26 corrupts gzipped CPAN tarballs ("bad header checksum").
+      # cpanm unpacks with pure-Perl Archive::Tar, which works on every
+      # Strawberry release, so use it for the Windows dependency install.
+      - name: install deps using cpanm
+        run: cpanm --installdeps --notest --with-suggests --with-test .
       - run: cpanm --testonly -v .
