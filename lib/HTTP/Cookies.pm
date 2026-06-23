@@ -210,6 +210,11 @@ sub extract_cookies {
         # field, so we have to use this ad-hoc parser.
         my $now = time();
 
+        # Far-future Expires dates and large Max-Age values are approximated
+        # at ten years out, to avoid overflowing time_t (or producing a float)
+        # when the expiry is serialized.
+        my $ten_years = 10 * 365 * 24 * 60 * 60;
+
         # Build a hash of cookies that was present in Set-Cookie2
         # headers.  We need to skip them if we also find them in a
         # Set-Cookie header.
@@ -263,7 +268,7 @@ sub extract_cookies {
 
                                 # the date is at least 10 years into the future, just replace
                                 # it with something approximate
-                                $expires_age = 10 * 365 * 24 * 60 * 60;
+                                $expires_age = $ten_years;
                             }
                         }
                     }
@@ -275,11 +280,9 @@ sub extract_cookies {
                     if ( defined $v && $v =~ /\A-?\d+\z/ ) {
 
                         # An absurdly large value would make time() + $max_age a
-                        # float in set_cookie and serialize to garbage. Cap it
-                        # with the same approximation the expires branch uses
-                        # for dates >= 10 years out.
-                        my $max = 10 * 365 * 24 * 60 * 60;
-                        $v = $max if $v > $max;
+                        # float in set_cookie and serialize to garbage, so cap
+                        # it at the same ten-year approximation used above.
+                        $v = $ten_years if $v > $ten_years;
 
                         # A later Max-Age overrides an earlier one (RFC 6265bis).
                         $max_age = $v;
