@@ -269,7 +269,20 @@ sub extract_cookies {
                     }
                 }
                 elsif ( !$first_param && lc($k) eq 'max-age' ) {
-                    $expires++;
+
+                    # RFC 6265 5.2.2: a non-integer Max-Age is ignored, not
+                    # treated as 0 (which would wrongly delete the cookie).
+                    if ( defined $v && $v =~ /\A-?\d+\z/ ) {
+
+                        # An absurdly large value would make time() + $maxage a
+                        # float in set_cookie and serialize to garbage. Cap it
+                        # with the same approximation the expires branch uses
+                        # for dates >= 10 years out.
+                        my $max = 10 * 365 * 24 * 60 * 60;
+                        $v = $max if $v > $max;
+                        push( @cur, "Max-Age" => $v );
+                        $expires++;
+                    }
                 }
                 elsif ( !$first_param
                     && lc($k) =~ /^(?:version|discard|ns-cookie)/ ) {
