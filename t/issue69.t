@@ -98,6 +98,8 @@ subtest 'a finite Max-Age wins over a far-future Expires' => sub {
     $jar->scan( sub { $expires = $_[8] } );
 
     ok defined $expires, 'cookie is stored with an expiry';
+    cmp_ok $expires, '>', time(), 'expiry is in the future'
+        if defined $expires;
     cmp_ok $expires, '<=', time() + 200,
         'the short Max-Age, not the 2099 Expires, controls the expiry'
         if defined $expires;
