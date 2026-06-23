@@ -121,11 +121,11 @@ jobs:
         with:
           name: build_dir
           path: .
-      - name: install deps using cpm
-        uses: perl-actions/install-with-cpm@v2.4
+      - uses: perl-actions/setup-cpm@v1
         with:
-          cpanfile: "cpanfile"
-          args: "--with-suggests --with-test"
+          version: compat
+      - name: install deps using cpm
+        run: cpm install -g --cpanfile cpanfile --with-suggests --with-test
       - run: prove -lr t
   test-windows:
     name: ${{ matrix.perl-version }} on windows-latest
@@ -155,9 +155,9 @@ jobs:
         with:
           name: build_dir
           path: .
-      - name: install deps using cpm
-        uses: perl-actions/install-with-cpm@v2.4
+      - uses: perl-actions/setup-cpm@v1
         with:
-          cpanfile: "cpanfile"
-          args: "--with-suggests --with-test --with-develop"
+          version: compat
+      - name: install deps using cpm
+        run: cpm install -g --cpanfile cpanfile --with-suggests --with-test --with-develop
       - run: cpanm --testonly -v .
