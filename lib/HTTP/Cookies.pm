@@ -224,7 +224,7 @@ sub extract_cookies {
             my @cur;
             my $param;
             my $expires;
-            my $maxage;         # Max-Age value, if seen (takes precedence)
+            my $max_age;        # Max-Age value, if seen (takes precedence)
             my $expires_age;    # expiry secs from now (from an Expires attr)
             my $first_param = 1;
             for $param ( @{ _split_text($set) } ) {
@@ -274,7 +274,7 @@ sub extract_cookies {
                     # treated as 0 (which would wrongly delete the cookie).
                     if ( defined $v && $v =~ /\A-?\d+\z/ ) {
 
-                        # An absurdly large value would make time() + $maxage a
+                        # An absurdly large value would make time() + $max_age a
                         # float in set_cookie and serialize to garbage. Cap it
                         # with the same approximation the expires branch uses
                         # for dates >= 10 years out.
@@ -282,7 +282,7 @@ sub extract_cookies {
                         $v = $max if $v > $max;
 
                         # A later Max-Age overrides an earlier one (RFC 6265bis).
-                        $maxage = $v;
+                        $max_age = $v;
                     }
                 }
                 elsif ( !$first_param
@@ -300,7 +300,7 @@ sub extract_cookies {
 
             # Apply the expiry once all params are parsed, with Max-Age taking
             # precedence over Expires (RFC 6265 5.3).
-            my $age = defined $maxage ? $maxage : $expires_age;
+            my $age = defined $max_age ? $max_age : $expires_age;
             if ( defined $age ) {
                 push( @cur, "Max-Age" => $age );
                 $expires++;

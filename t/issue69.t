@@ -55,7 +55,7 @@ subtest 'non-numeric Max-Age is ignored (RFC 6265 5.2.2)' => sub {
 };
 
 subtest 'an absurdly large Max-Age is capped at ~10 years' => sub {
-    # Without a cap, a huge value makes time() + $maxage a float, which
+    # Without a cap, a huge value makes time() + $max_age a float, which
     # serializes to garbage and silently downgrades to a session cookie.
     # Mirror the expires branch, which caps far-future dates at 10 years.
     my $ten_years = 10 * 365 * 24 * 60 * 60;
