@@ -224,6 +224,8 @@ sub extract_cookies {
             my @cur;
             my $param;
             my $expires;
+            my $maxage;         # Max-Age value, if seen (takes precedence)
+            my $expires_age;    # expiry secs from now (from an Expires attr)
             my $first_param = 1;
             for $param ( @{ _split_text($set) } ) {
                 next unless length($param);
@@ -239,10 +241,13 @@ sub extract_cookies {
                     #print "$k => undef";
                 }
                 if ( !$first_param && lc($k) eq "expires" ) {
+
+                    # Record the value rather than applying it now: a Max-Age
+                    # attribute, if present, takes precedence (RFC 6265 5.3), and
+                    # a later Expires overrides an earlier one.
                     my $etime = str2time($v);
                     if ( defined $etime ) {
-                        push( @cur, "Max-Age" => $etime - $now );
-                        $expires++;
+                        $expires_age = $etime - $now;
                     }
                     else {
                         # parse_date can deal with years outside the range of time_t,
@@ -251,19 +256,14 @@ sub extract_cookies {
                         if ($year) {
                             my $thisyear = (gmtime)[5] + 1900;
                             if ( $year < $thisyear ) {
-                                push( @cur, "Max-Age" => -1 )
-                                    ;    # any negative value will do
-                                $expires++;
+                                $expires_age
+                                    = -1;    # any negative value will do
                             }
                             elsif ( $year >= $thisyear + 10 ) {
 
                                 # the date is at least 10 years into the future, just replace
                                 # it with something approximate
-                                push(
-                                    @cur,
-                                    "Max-Age" => 10 * 365 * 24 * 60 * 60
-                                );
-                                $expires++;
+                                $expires_age = 10 * 365 * 24 * 60 * 60;
                             }
                         }
                     }
@@ -280,8 +280,9 @@ sub extract_cookies {
                         # for dates >= 10 years out.
                         my $max = 10 * 365 * 24 * 60 * 60;
                         $v = $max if $v > $max;
-                        push( @cur, "Max-Age" => $v );
-                        $expires++;
+
+                        # A later Max-Age overrides an earlier one (RFC 6265bis).
+                        $maxage = $v;
                     }
                 }
                 elsif ( !$first_param
@@ -296,6 +297,14 @@ sub extract_cookies {
             }
             next unless @cur;
             next if $in_set2{ $cur[0] };
+
+            # Apply the expiry once all params are parsed, with Max-Age taking
+            # precedence over Expires (RFC 6265 5.3).
+            my $age = defined $maxage ? $maxage : $expires_age;
+            if ( defined $age ) {
+                push( @cur, "Max-Age" => $age );
+                $expires++;
+            }
 
             #	    push(@cur, "Port" => $req_port);
             push( @cur, "Discard"   => undef ) unless $expires;
