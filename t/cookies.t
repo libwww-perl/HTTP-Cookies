@@ -828,7 +828,9 @@ $h = $req->header("Cookie");
 like( $h, qr/foo=bar/ );
 unlink($file) || warn "Can't unlink $file: $!";
 
-# Test discard isn't set when max-age is set
+# max-age must produce an expiry (GH #69); the cookie should be kept rather
+# than discarded. Match the expires value with a pattern, not a literal
+# timestamp, so the test does not depend on the current date.
 $c   = HTTP::Cookies->new;
 $req = HTTP::Request->new( "GET" => "http://example.com" );
 $res = HTTP::Response->new( 200, "OK" );
@@ -837,9 +839,11 @@ $res->header( "Set-Cookie" => "foo=bar; max-age=1337" );
 $c->extract_cookies($res);
 
 #print $c->as_string;
-is( $c->as_string, <<'EOT' );
-Set-Cookie3: foo=bar; path="/"; domain=example.com; version=0
-EOT
+like(
+    $c->as_string,
+    qr{^Set-Cookie3: foo=bar; path="/"; domain=example\.com; expires="[^"]+"; version=0\n\z},
+    "max-age sets an expiry and keeps the cookie"
+);
 
 #-------------------------------------------------------------------
 

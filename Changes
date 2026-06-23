@@ -2,6 +2,9 @@ Revision history for HTTP-Cookies.  The HTTP::Cookies module used to be bundled
 with the libwww-perl distribution.
 
 {{$NEXT}}
+    - Honour Max-Age when extracting cookies; it had been silently ignored
+      since 6.10, so Max-Age=0 no longer deleted a cookie and a Max-Age
+      lifetime was never applied (GH#69) (reported by Robert Mueller)
 
 6.11      2023-12-07 16:36:52Z
     - Replace "Test" with "Test::More" (GH#70) (James Raspass)
