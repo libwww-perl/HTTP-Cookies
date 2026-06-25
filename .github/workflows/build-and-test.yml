@@ -20,7 +20,7 @@ jobs:
     container:
       image: perldocker/perl-tester:5.42
     steps:
-      - uses: actions/checkout@v6.0.3
+      - uses: actions/checkout@v7.0.0
       - name: install aspell
         run: apt-get install aspell aspell-en
       - name: Run Tests
@@ -41,7 +41,7 @@ jobs:
     container:
       image: perldocker/perl-tester:5.42
     steps:
-      - uses: actions/checkout@v6.0.3 # codecov wants to be inside a Git repository
+      - uses: actions/checkout@v7.0.0 # codecov wants to be inside a Git repository
       - uses: actions/download-artifact@v8.0.1
         with:
           name: build_dir
@@ -79,7 +79,7 @@ jobs:
           - "5.40"
           - "5.42"
     steps:
-      - uses: actions/checkout@v6.0.3
+      - uses: actions/checkout@v7.0.0
       - uses: actions/download-artifact@v8.0.1
         with:
           name: build_dir
