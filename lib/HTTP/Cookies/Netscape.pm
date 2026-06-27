@@ -30,9 +30,14 @@ sub load {
         my ( $domain, $bool1, $path, $secure, $expires, $key, $val )
             = split( /\t/, $line );
         $secure = ( $secure eq "TRUE" );
+
+        # An expiry of 0 means a session cookie (no expiration), per the
+        # curl/cookies.txt convention. Pass undef max-age so set_cookie() keeps
+        # it instead of reading 0-$now as an already-expired cookie.
+        my $maxage = $expires ? $expires - $now : undef;
         $self->set_cookie(
-            undef,   $key,            $val, $path, $domain, undef, 0,
-            $secure, $expires - $now, 0
+            undef,   $key,    $val, $path, $domain, undef, 0,
+            $secure, $maxage, 0
         );
     }
     1;
@@ -64,11 +69,19 @@ EOT
         sub {
             my (
                 $version, $key,     $val, $path, $domain, $port, $path_spec,
-                $secure,  $expires, $discard, $rest
+                $secure,  $expires, $discard
             ) = @_;
             return if $discard && !$args{'ignore_discard'};
-            $expires = $expires ? $expires - $HTTP::Cookies::EPOCH_OFFSET : 0;
-            return if $now > $expires;
+
+            # A session cookie (no expiry) is written with an expiry of 0 and kept,
+            # matching curl. Only drop a cookie that has a real, past expiry.
+            if ($expires) {
+                $expires = $expires - $HTTP::Cookies::EPOCH_OFFSET;
+                return if $now > $expires;
+            }
+            else {
+                $expires = 0;
+            }
             $secure = $secure ? "TRUE" : "FALSE";
             my $bool = $domain =~ /^\./ ? "TRUE" : "FALSE";
             print {$fh} join(
