@@ -210,6 +210,11 @@ sub extract_cookies {
         # field, so we have to use this ad-hoc parser.
         my $now = time();
 
+        # Far-future Expires dates and large Max-Age values are approximated
+        # at ten years out, to avoid overflowing time_t (or producing a float)
+        # when the expiry is serialized.
+        my $ten_years = 10 * 365 * 24 * 60 * 60;
+
         # Build a hash of cookies that was present in Set-Cookie2
         # headers.  We need to skip them if we also find them in a
         # Set-Cookie header.
@@ -224,6 +229,8 @@ sub extract_cookies {
             my @cur;
             my $param;
             my $expires;
+            my $max_age;        # Max-Age value, if seen (takes precedence)
+            my $expires_age;    # expiry secs from now (from an Expires attr)
             my $first_param = 1;
             for $param ( @{ _split_text($set) } ) {
                 next unless length($param);
@@ -239,10 +246,13 @@ sub extract_cookies {
                     #print "$k => undef";
                 }
                 if ( !$first_param && lc($k) eq "expires" ) {
+
+                    # Record the value rather than applying it now: a Max-Age
+                    # attribute, if present, takes precedence (RFC 6265 5.3), and
+                    # a later Expires overrides an earlier one.
                     my $etime = str2time($v);
                     if ( defined $etime ) {
-                        push( @cur, "Max-Age" => $etime - $now );
-                        $expires++;
+                        $expires_age = $etime - $now;
                     }
                     else {
                         # parse_date can deal with years outside the range of time_t,
@@ -251,25 +261,32 @@ sub extract_cookies {
                         if ($year) {
                             my $thisyear = (gmtime)[5] + 1900;
                             if ( $year < $thisyear ) {
-                                push( @cur, "Max-Age" => -1 )
-                                    ;    # any negative value will do
-                                $expires++;
+                                $expires_age
+                                    = -1;    # any negative value will do
                             }
                             elsif ( $year >= $thisyear + 10 ) {
 
                                 # the date is at least 10 years into the future, just replace
                                 # it with something approximate
-                                push(
-                                    @cur,
-                                    "Max-Age" => 10 * 365 * 24 * 60 * 60
-                                );
-                                $expires++;
+                                $expires_age = $ten_years;
                             }
                         }
                     }
                 }
                 elsif ( !$first_param && lc($k) eq 'max-age' ) {
-                    $expires++;
+
+                    # RFC 6265 5.2.2: a non-integer Max-Age is ignored, not
+                    # treated as 0 (which would wrongly delete the cookie).
+                    if ( defined $v && $v =~ /\A-?\d+\z/ ) {
+
+                        # An absurdly large value would make time() + $max_age a
+                        # float in set_cookie and serialize to garbage, so cap
+                        # it at the same ten-year approximation used above.
+                        $v = $ten_years if $v > $ten_years;
+
+                        # A later Max-Age overrides an earlier one (RFC 6265bis).
+                        $max_age = $v;
+                    }
                 }
                 elsif ( !$first_param
                     && lc($k) =~ /^(?:version|discard|ns-cookie)/ ) {
@@ -283,6 +300,14 @@ sub extract_cookies {
             }
             next unless @cur;
             next if $in_set2{ $cur[0] };
+
+            # Apply the expiry once all params are parsed, with Max-Age taking
+            # precedence over Expires (RFC 6265 5.3).
+            my $age = defined $max_age ? $max_age : $expires_age;
+            if ( defined $age ) {
+                push( @cur, "Max-Age" => $age );
+                $expires++;
+            }
 
             #	    push(@cur, "Port" => $req_port);
             push( @cur, "Discard"   => undef ) unless $expires;
