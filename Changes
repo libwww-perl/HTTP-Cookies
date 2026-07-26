@@ -2,6 +2,11 @@ Revision history for HTTP-Cookies.  The HTTP::Cookies module used to be bundled
 with the libwww-perl distribution.
 
 {{$NEXT}}
+    - Parse the classic Set-Cookie (v0) header per RFC 6265 again: split only
+      on ";" and keep the value verbatim, without the quote/backslash handling
+      added in 6.05 (GH#49) that wrongly stripped quotes (e.g. foo="bar" is now
+      preserved instead of becoming foo=bar). Version-1 (RFC 2965 / Set-Cookie2)
+      quoting is unaffected (GH#73)
 
 6.12      2026-07-26 02:34:52Z
     - Honour Max-Age when extracting cookies; it had been silently ignored

@@ -700,7 +700,10 @@ is( $c->as_string, <<'EOT' );
 Set-Cookie3: CUSTOMER=WILE_E_COYOTE; path="/"; domain=example.com; path_spec; discard; version=0
 EOT
 
-# Test Set-Cookie with version set
+# Test Set-Cookie with version set. The v0 Set-Cookie path follows
+# RFC 6265, which has no quoting: the double quotes are part of the value and
+# are kept verbatim, even when a (legacy RFC 2109) version attribute is
+# present. See GH #73 -- version-1 quote handling lives on the Set-Cookie2 path.
 $c = HTTP::Cookies->new;
 $res->header( "Set-Cookie" => "foo=\"bar\";version=1" );
 
@@ -712,7 +715,7 @@ $req = HTTP::Request->new( GET => "http://www.example.com/foo" );
 $c->add_cookie_header($req);
 
 #print $req->as_string;
-is( $req->header("Cookie"), "foo=bar" );
+is( $req->header("Cookie"), 'foo="bar"' );
 
 # Test cookies that expire far into the future [RT#50147]
 $c = HTTP::Cookies->new;
