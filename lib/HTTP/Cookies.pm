@@ -277,7 +277,7 @@ sub extract_cookies {
 
                     # RFC 6265 5.2.2: a non-integer Max-Age is ignored, not
                     # treated as 0 (which would wrongly delete the cookie).
-                    if ( defined $v && $v =~ /\A-?\d+\z/ ) {
+                    if ( defined $v && $v =~ /\A-?[0-9]+\z/ ) {
 
                         # An absurdly large value would make time() + $max_age a
                         # float in set_cookie and serialize to garbage, so cap
