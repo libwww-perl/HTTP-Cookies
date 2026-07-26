@@ -50,8 +50,10 @@ subtest 'the value is split on ";" per RFC 6265' => sub {
     # A ";" inside a would-be "quoted" value still terminates the value,
     # because v0 has no quoting: a="b;c" yields the cookie value '"b'.
     my $req  = HTTP::Request->new( GET => 'http://example.com/' );
-    my $resp = HTTP::Response->new( 200, 'OK',
-        [ 'Set-Cookie', 'a="b;c"; domain=example.com; path=/' ] );
+    my $resp = HTTP::Response->new(
+        200, 'OK',
+        [ 'Set-Cookie', 'a="b;c"; domain=example.com; path=/' ]
+    );
     $resp->request($req);
     my $jar = HTTP::Cookies->new;
     $jar->extract_cookies($resp);
