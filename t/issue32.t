@@ -6,6 +6,17 @@ use HTTP::Cookies  ();
 use HTTP::Request  ();
 use HTTP::Response ();
 
+# GH issue #32 (rt.cpan.org #70721) was reported against *version-1* cookies,
+# whose quoting is defined by RFC 2965 and handled on the Set-Cookie2 path
+# (_split_header_words). PR #49 mistakenly taught the v0 (Netscape) Set-Cookie
+# path to process quotes and backslashes too, which broke RFC 6265 compliance
+# (see GH #73). That quote handling has been reverted: the v0 path now splits
+# only on ";" and keeps the value verbatim, per RFC 6265 5.2.
+#
+# This test pins the RFC 6265 parse of the header from #32's own repro: with no
+# quoting on the v0 path, a="b;c;\"d" is split on ";", so cookie "a" takes the
+# value '"b' rather than folding the ";"-separated remainder back into it.
+
 my $nextyear = 1901 + ( gmtime() )[5];
 
 my $req  = HTTP::Request->new( GET => "http://example.com" );
@@ -22,17 +33,9 @@ $resp->request($req);
 
 my $c = HTTP::Cookies->new;
 $c->extract_cookies($resp);
-is $c->as_string,
-    'Set-Cookie3: a="b;c;\"d"; path="/"; domain=example.com; path_spec; expires="'
-    . $nextyear
-    . '-11-06 08:58:34Z"; version=0' . "\n";
 
-# test the implementation of the split function in isolation.
-# should probably name the function better too.
-my $simple = 'b;c;d';
-is_deeply HTTP::Cookies::_split_text($simple), [qw/b c  d/], "Parse $simple";
-my $complex = '"b;c;\\"d";blah=32;foo="/"';
-is_deeply HTTP::Cookies::_split_text($complex),
-    [ 'b;c;"d', 'blah=32', 'foo=/' ], "Parse $complex";
+my $value;
+$c->scan( sub { $value = $_[2] if $_[1] eq 'a' } );
+is $value, '"b', 'RFC 6265: a="b;c;\"d" splits on ";" so value is "b';
 
 done_testing;
