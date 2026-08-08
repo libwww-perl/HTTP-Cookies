@@ -5,7 +5,7 @@ use HTTP::Request  ();
 use HTTP::Response ();
 use URI            ();
 
-use Test::More tests => 79;
+use Test::More tests => 80;
 
 #-------------------------------------------------------------------
 # First we check that it works for the original example at
@@ -453,9 +453,13 @@ $c->save;
 undef($c);
 
 $c = HTTP::Cookies::Netscape->new( file => $file );
-is( count_cookies($c), 1 );    # 2 of them discarded on save
+
+# foo2 (Discard) dropped on save; foo1 (max-age) and foo3 (session cookie,
+# no expiry) are kept, matching curl
+is( count_cookies($c), 2 );
 
 like( $c->as_string, qr/foo1=bar/ );
+like( $c->as_string, qr/foo3=bar/ );    # session cookie survives save/load
 undef($c);
 unlink($file);
 
